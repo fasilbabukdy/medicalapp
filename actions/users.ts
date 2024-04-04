@@ -55,7 +55,7 @@ export async function createUser(formData: RegisterInputProps) {
       const message =
          "Thank you for registering with Gecko. To complete your registration and verify your email address, please enter the following 6-digit verification code on our website :";
       const sendMail = await resend.emails.send({
-         from: "Medical App <contact@stanfosys.com>",
+         from: "Medical App <onboarding@resend.dev>",
          to: email,
          subject: "Verify Your Email Address",
          react: EmailTemplate({ name: firstName, token, linkText, message }),
@@ -74,5 +74,35 @@ export async function createUser(formData: RegisterInputProps) {
          message: "Something went wrong, try again!",
          success: false,
       };
+   }
+}
+
+export async function getUserById(id: string) {
+   try {
+      if (id) {
+         const user = await prismaClient.user.findUnique({
+            where: {
+               id,
+            },
+         });
+         return user;
+      }
+   } catch (error) {
+      console.log(error);
+   }
+}
+
+export async function updateUserById(id: string) {
+   try {
+      if (id) {
+         const user = await prismaClient.user.update({
+            where: { id },
+            data: {
+               isVerfied: true,
+            },
+         });
+      }
+   } catch (error) {
+      console.log(error);
    }
 }

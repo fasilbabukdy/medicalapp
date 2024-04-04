@@ -45,7 +45,8 @@ const RegisterFrom = ({ role = "USER" }: { role?: UserRole }) => {
             },
          });
       } catch (error) {
-         console.log(error);
+         setIsLoading(false);
+         toast.error("Its seems something is wrong with your Network");
       }
    };
 
